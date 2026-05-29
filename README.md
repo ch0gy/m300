@@ -1,4 +1,5 @@
 # m300
+<<<<<<< HEAD
 
 # Pokémon Budget Tracker – Modul 300
 
@@ -50,3 +51,5 @@ V2 – Eigenes Projekt
 - Wöchentliches Lernjournal in `docs/lernjournal/`
 - Alle Entscheidungen werden mit Begründung dokumentiert
 - Eigenes Vorgehen wird wöchentlich reflektiert
+=======
+>>>>>>> 74a8d89d10ede3612d7b262bebdc7ccf20dfdf7a

@@ -50,3 +50,38 @@ V2 – Eigenes Projekt
 - Wöchentliches Lernjournal in `docs/lernjournal/`
 - Alle Entscheidungen werden mit Begründung dokumentiert
 - Eigenes Vorgehen wird wöchentlich reflektiert
+
+---
+
+# Lernjournal – Woche 3
+
+**Datum:** 5. Juni 2026
+**Modul:** M300 – Cloud-Lösungen realisieren
+
+---
+
+## Was habe ich gemacht?
+- Backend mit Python Flask und MySQL aufgesetzt
+- Dockerfile, docker-compose.yml, nginx.conf und prometheus.yml erstellt
+- Datenbankschema mit init.sql und Foreign Keys definiert (cards, entries, portfolio)
+- Frontend (index.html) mit Pokémon TCG API verbunden
+- App lokal mit Docker zum Laufen gebracht (`docker-compose up --build`)
+- App erfolgreich auf `http://localhost` geöffnet und getestet
+
+## Was habe ich gelernt?
+- Wie docker-compose mehrere Services gleichzeitig startet (MySQL, Flask, Nginx, Prometheus, Grafana)
+- Wie ein Dockerfile aufgebaut ist
+- Warum eine separate `init.sql` besser ist als Tabellen im Python-Code zu erstellen
+- Wie Foreign Keys in MySQL funktionieren (cards → entries, cards → portfolio)
+- Wie Nginx als Reverse Proxy funktioniert (Port 80 → Backend weiterleiten)
+- Wie Docker Volumes funktionieren (Daten bleiben gespeichert auch nach Neustart)
+
+## Was war schwierig?
+- Docker Desktop war nicht gestartet – App konnte nicht gebaut werden
+- Der `backend` Ordner fehlte beim ersten `docker-compose up --build`
+- Die Ordnerstruktur musste zuerst korrekt angelegt werden bevor Docker funktionierte
+
+## Nächste Woche
+AWS EC2 Instanz starten, App auf den Server deployen und GitHub Actions CI/CD Pipeline einrichten.
+
+---

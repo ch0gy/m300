@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+
+  # ============================================
+  # MySQL Datenbank
+  # ============================================
+  db:
+    image: mysql:8.0
+    container_name: pokemon-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: pokemon_tracker
+      MYSQL_USER: pokemon
+      MYSQL_PASSWORD: pokemon123
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql   # Tabellen automatisch erstellen
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # Flask Backend
+  # ============================================
+  backend:
+    build: ./backend
+    container_name: pokemon-backend
+    restart: always
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: pokemon
+      MYSQL_PASSWORD: pokemon123
+      MYSQL_DATABASE: pokemon_tracker
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ============================================
+  # Nginx Frontend
+  # ============================================
+  frontend:
+    image: nginx:alpine
+    container_name: pokemon-frontend
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+
+  # ============================================
+  # Prometheus (Metriken sammeln)
+  # ============================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: pokemon-prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+
+  # ============================================
+  # Grafana (Dashboard & Alerts)
+  # ============================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: pokemon-grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin123
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  mysql_data:
+  prometheus_data:
+  grafana_data:

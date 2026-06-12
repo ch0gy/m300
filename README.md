@@ -85,3 +85,42 @@ V2 – Eigenes Projekt
 AWS EC2 Instanz starten, App auf den Server deployen und GitHub Actions CI/CD Pipeline einrichten.
 
 ---
+
+# Lernjournal – Woche 3
+
+**Datum:** 12. Juni 2026
+**Modul:** M300 – Cloud-Lösungen realisieren
+
+---
+
+## Was habe ich gemacht?
+- Per SSH mit EC2 Instanz verbunden
+- Docker und Git auf EC2 installiert
+- GitHub Repository auf EC2 geclont
+- App mit `docker-compose up --build -d` gestartet
+- Fehler entdeckt: EC2 Festplatte war zu 100% voll (nur 6.7GB)
+- AWS Volume von 6.7GB auf 20GB vergrössert
+- Festplatte mit `growpart` und `resize2fs` zu erweitern versucht, aber dann doch auf AWS mit "modify volume".
+- MySQL Container konnte nicht starten wegen korruptem Volume
+- Verschiedene Lösungsversuche (docker prune, Volume löschen, Reboot)
+- Entschieden die EC2 Instanz neu zu erstellen mit 20GB von Anfang an
+
+## Was habe ich gelernt?
+- Wie man per SSH auf einen Cloud-Server verbindet
+- Wie Docker auf Ubuntu installiert wird
+- Warum `sudo usermod -aG docker ubuntu` nötig ist und dass man sich neu einloggen muss damit es wirkt
+- Was `df -h` zeigt und wie man den Festplattenverbrauch überwacht
+- Wie man ein AWS Volume vergrössert und mit `growpart` + `resize2fs` aktiviert
+- Was Docker Volumes sind und warum ein korruptes Volume Probleme verursacht
+- Wie man Docker Logs analysiert (`docker logs container-name`)
+- Fehler `No space left on device` und `data directory has files in it` verstehen
+
+## Was war schwierig?
+- Das MySQL Volume war durch den vollen Speicher korrumpiert und liess sich nicht mehr löschen da der Container es noch benutzte
+- AppArmor verhinderte das Stoppen der Container – kein Standard-Befehl hat funktioniert
+- Viel Zeit verloren mit verschiedenen Lösungsversuchen
+
+## Nächste Woche
+Neue EC2 Instanz mit 20GB Storage erstellen, App erfolgreich deployen und GitHub Actions CI/CD Pipeline einrichten.
+
+---

@@ -142,7 +142,14 @@ Alle Container laufen im gleichen Docker-Netzwerk (`code_default`) und kommunizi
 
 ### Prometheus
 Sammelt alle 15 Sekunden Metriken vom Backend-Endpunkt `/metrics`.
-
+ 
+Der Target-Status zeigt ob Prometheus das Backend erfolgreich erreicht:
+ 
+![Prometheus Targets](Bilder/prometheus-targets.png)
+ 
+- **Status: UP** – Prometheus erreicht das Backend erfolgreich
+- **Scrape Interval: 15s** – Metriken werden alle 15 Sekunden abgerufen
+- **Endpoint:** `http://backend:5000/metrics`
 Konfiguration in `prometheus.yml`:
 ```yaml
 scrape_configs:
@@ -155,6 +162,16 @@ scrape_configs:
 - Erreichbar unter: `http://EC2-IP:3000`
 - Login: `admin / admin123`
 - Datenquelle: Prometheus (`http://prometheus:9090`)
+Das Dashboard **Pokemon-Tracker** zeigt folgende Panels in Echtzeit:
+ 
+| Panel | Metric | Beschreibung |
+|-------|--------|-------------|
+| HTTP Anfragen total | `http_requests_total` | Anzahl GET/POST Anfragen an die API |
+| API Antwortzeit | `http_request_duration_seconds_sum` | Wie schnell das Backend antwortet |
+| CPU Verbrauch | `process_cpu_seconds_total` | CPU-Auslastung des Backends |
+| RAM Verbrauch | `process_resident_memory_bytes` | Speicherverbrauch des Backends |
+ 
+![Grafana Dashboard](Bilder/grafana-dashboard.png)
 
 ### Logs anzeigen
 ```bash

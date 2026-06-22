@@ -39,4 +39,4 @@ jobs:
             cd ~/m300/Code
             git pull origin main
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pokemon-tracker:latest
-            docker-compose up -d --no-build
+            docker compose up -d --no-build

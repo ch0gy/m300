@@ -192,11 +192,12 @@ Bei jedem Push auf den `main` Branch wird automatisch deployed:
 1. Code wird ausgecheckt
 2. Docker Image wird gebaut und auf Docker Hub gepusht
 3. EC2 Server pullt das neue Image und startet die Container neu
+   
 ### GitHub Secrets
  
-Alle sensiblen Daten sind als Repository Secrets gespeichert – nie im Code:
+Alle sensiblen Daten sind als Repository Secrets gespeichert. Nie im Code:
  
-![GitHub Secrets](screenshots/github-secrets.png)
+![GitHub Secrets](Bilder/github-secrets.png)
  
 | Secret | Zweck |
 |--------|-------|
@@ -207,6 +208,25 @@ Alle sensiblen Daten sind als Repository Secrets gespeichert – nie im Code:
  
 ### Erfolgreicher Pipeline-Lauf
  
-![Pipeline Success](screenshots/pipeline-success.png)
+![Pipeline Success](Bilder/pipeline-success.png)
  
 Status **Success** in 41 Sekunden – Code wurde automatisch auf EC2 deployed.
+
+---
+ 
+## 7. Alerting
+ 
+Ein Alert wurde in Grafana eingerichtet der automatisch benachrichtigt wenn das Backend nicht mehr erreichbar ist.
+ 
+### Alert Rule: Backend Down
+ 
+| Einstellung | Wert |
+|-------------|------|
+| Name | Backend Down |
+| Metric | `http_requests_total` |
+| Bedingung | IS BELOW 1 |
+| Evaluate every | 1m |
+| Pending period | 1m |
+| Keep firing for | 2m |
+ 
+![Grafana Alert](Bilder/grafana-alert.png)

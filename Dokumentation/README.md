@@ -11,7 +11,7 @@
 - [3. Konfiguration](#3-konfiguration)
 - [4. Netzwerk & Sicherheit](#4-netzwerk--sicherheit)
 - [5. Monitoring & Logging](#5-monitoring--logging)
-
+- [6. CI/CD Pipeline](#6-cicd-pipeline)
 ---
 
 ## 1. Architektur & Komponenten
@@ -185,4 +185,28 @@ docker logs pokemon-db
 
 ---
 
-*Letzte Aktualisierung: 12. Juni 2026*
+## 6. CI/CD Pipeline
+ 
+Bei jedem Push auf den `main` Branch wird automatisch deployed:
+ 
+1. Code wird ausgecheckt
+2. Docker Image wird gebaut und auf Docker Hub gepusht
+3. EC2 Server pullt das neue Image und startet die Container neu
+### GitHub Secrets
+ 
+Alle sensiblen Daten sind als Repository Secrets gespeichert – nie im Code:
+ 
+![GitHub Secrets](screenshots/github-secrets.png)
+ 
+| Secret | Zweck |
+|--------|-------|
+| `DOCKERHUB_USERNAME` | Docker Hub Benutzername |
+| `DOCKERHUB_TOKEN` | Docker Hub Access Token |
+| `EC2_HOST` | IP-Adresse des EC2 Servers |
+| `EC2_KEY` | SSH Private Key für EC2 Zugriff |
+ 
+### Erfolgreicher Pipeline-Lauf
+ 
+![Pipeline Success](screenshots/pipeline-success.png)
+ 
+Status **Success** in 41 Sekunden – Code wurde automatisch auf EC2 deployed.

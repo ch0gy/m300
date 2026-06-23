@@ -117,3 +117,44 @@ AWS EC2 Instanz starten, App auf den Server deployen und GitHub Actions CI/CD Pi
 Neue EC2 Instanz mit 20GB Storage erstellen, App erfolgreich deployen und GitHub Actions CI/CD Pipeline einrichten.
 
 ---
+
+# Lernjournal – Woche 5
+
+**Datum:** 19/20. Juni 2026
+**Modul:** M300 – Cloud-Lösungen realisieren
+
+---
+
+## Was habe ich gemacht?
+- Alle 5 Container erfolgreich auf EC2 gestartet (MySQL, Flask, Nginx, Prometheus, Grafana)
+- Security Groups angepasst: Port 3000 (Grafana) und 9090 (Prometheus) geöffnet
+- Prometheus als Datenquelle in Grafana verbunden (`http://prometheus:9090`)
+- Grafana Dashboard **Pokemon-Tracker** mit 4 Panels erstellt:
+  - HTTP Anfragen total
+  - API Antwortzeit
+  - CPU Verbrauch
+  - RAM Verbrauch
+- Prometheus Target überprüft – Status **UP** (`http://backend:5000/metrics`)
+- Docker Hub Access Token erstellt (`m300-pipeline`, Read & Write)
+- GitHub Secrets gesetzt (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `EC2_HOST`, `EC2_KEY`)
+- CI/CD Pipeline mit GitHub Actions eingerichtet (`.github/workflows/deploy.yml`)
+- Pipeline erfolgreich getestet – Status **Success** in 41 Sekunden
+
+## Was habe ich gelernt?
+- Wie Grafana mit Prometheus als Datenquelle verbunden wird
+- Wie man Panels in Grafana erstellt und Prometheus Queries eingibt
+- Was `http_requests_total`, `process_cpu_seconds_total` und `process_resident_memory_bytes` bedeuten
+- Wie GitHub Actions funktioniert (Trigger, Jobs, Steps)
+- Wie Docker Hub Access Tokens erstellt werden und warum `Read & Write` nötig ist
+- Warum GitHub Secrets wichtig sind (Passwörter nie im Code speichern)
+- Unterschied `docker-compose` vs `docker compose` (neuere Ubuntu Version)
+- Wie man einen fehlgeschlagenen Pipeline-Run analysiert und den Fehler behebt
+
+## Was war schwierig?
+- Die Pipeline schlug beim ersten Versuch fehl weil `docker-compose` auf der neuen EC2 nicht verfügbar war – der korrekte Befehl ist `docker compose` (ohne Bindestrich)
+- Prometheus Port 9090 war zuerst nicht erreichbar da die Security Group fehlte
+
+## Nächste Woche
+Grafana Alert einrichten, Reflexion schreiben und Dokumentation finalisieren.
+
+---
